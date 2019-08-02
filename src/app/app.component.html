@@ -1,0 +1,112 @@
+<p-tabView [activeIndex]="selectedIndex">
+  <p-tabPanel
+    [header]="
+      tab.searchParameters.query
+        ? (tab.searchParameters.query | trim: 10)
+        : 'Search by ..'
+    "
+    *ngFor="let tab of tabs; let i = index"
+    [selected]="i == selectedIndex"
+    [closable]="true"
+  >
+    <!-- 👉 {{ i }} -->
+
+    <div class="ui-g">
+      <div class="ui-g-12 ui-lg-2 ui-md-2"></div>
+      <div class="ui-g-12 ui-lg-6 ui-md-6">
+        <div class="ui-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="type something ...."
+            class="w-100"
+            [(ngModel)]="tab.searchParameters.query"
+            (keyup.enter)="getAssests(tab)"
+          />
+          <button
+            pButton
+            [icon]="'fas fa-search'"
+            (click)="getAssests(tab)"
+          ></button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-lg-2 ui-md-2">
+        <p-dropdown
+          [options]="searchType"
+          [(ngModel)]="tab.searchParameters.type"
+          class="w-100"
+        ></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-lg-2 ui-md-2"></div>
+      <div class="ui-g-12 ui-lg-12 ui-md-12 o-50">
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-lg-12 ui-md-12">
+        <div class="ui-g-12 ui-lg-3 ui-md-3" *ngFor="let asset of tab.assests">
+          <p-card [styleClass]="'preview'" (click)="showDialog(asset)">
+            <div
+              class="of-hidden"
+              [ngStyle]="{
+                width: '100%',
+                'height.px': 180
+              }"
+            >
+              <div
+                [ngStyle]="{
+                  'background-image': url(asset.previewImageUrl),
+                  width: '100%',
+                  'height.px': 180,
+                  'background-size': 'cover'
+                }"
+                class="image-prev"
+              ></div>
+            </div>
+            <p-footer>
+              <h3 class="title">
+                {{ asset.title }}
+              </h3>
+            </p-footer>
+          </p-card>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel [headerStyleClass]="'add-tab'">
+    <ng-template pTemplate="header">
+      <span (click)="addNewTab()">
+        <i class="fas fa-plus"></i>
+      </span>
+    </ng-template>
+    &nbsp;
+  </p-tabPanel>
+</p-tabView>
+
+<p-dialog
+  [header]="selecteionAsset.title | trim: 70"
+  [(visible)]="dialogVis"
+  [modal]="true"
+  [draggable]="false"
+  [style]="{ width: '600px' }"
+>
+  <div
+    class="large-preview-image"
+    [ngStyle]="{ 'background-image': url(selecteionAsset.largeImageUrl) }"
+  >
+    &nbsp;
+  </div>
+  <p class="discription">
+    {{ selecteionAsset.description }}
+  </p>
+  <p-footer>
+    <a
+      pButton
+      [href]="selecteionAsset.sourceUrl"
+      target="blank"
+      icon="fas fa-external-link-alt"
+      label="Source"
+      class="w-100"
+    >
+    </a>
+  </p-footer>
+</p-dialog>
