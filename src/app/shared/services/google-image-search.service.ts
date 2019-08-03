@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, forkJoin } from "rxjs";
 import { map } from "rxjs/operators";
 import { ResultMapper } from "../result-maper";
+import { Assets } from "src/app/models/assets";
 
 @Injectable({
   providedIn: "root"
@@ -13,7 +14,7 @@ export class GoogleImageSearchService {
   private url: string = "https://www.googleapis.com/customsearch/v1";
   constructor(private _http: HttpClient) {}
 
-  getImages(query: string): Observable<any> {
+  getImages(query: string): Observable<Assets> {
     // const url01 = `${this.url}?key=${
     //   this.apiKey
     // }&cx=001629702111415738398:jmzhrlwwyro&start=1&q=${query}`;

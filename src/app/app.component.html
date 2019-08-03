@@ -1,4 +1,4 @@
-<p-tabView [activeIndex]="selectedIndex">
+<p-tabView [activeIndex]="selectedIndex" (onClose)="removeTab($event.index)">
   <p-tabPanel
     [header]="
       tab.searchParameters.query
@@ -45,22 +45,15 @@
       <div class="ui-g-12 ui-lg-12 ui-md-12">
         <div class="ui-g-12 ui-lg-3 ui-md-3" *ngFor="let asset of tab.assests">
           <p-card [styleClass]="'preview'" (click)="showDialog(asset)">
-            <div
-              class="of-hidden"
-              [ngStyle]="{
-                width: '100%',
-                'height.px': 180
-              }"
-            >
-              <div
-                [ngStyle]="{
-                  'background-image': url(asset.previewImageUrl),
-                  width: '100%',
-                  'height.px': 180,
-                  'background-size': 'cover'
-                }"
-                class="image-prev"
-              ></div>
+            <div>
+              <div class="of-hidden image-con">
+                <div
+                  [ngStyle]="{
+                    'background-image': asset.previewImageUrl | url
+                  }"
+                  class="image-prev"
+                ></div>
+              </div>
             </div>
             <p-footer>
               <h3 class="title">
@@ -72,15 +65,21 @@
       </div>
     </div>
   </p-tabPanel>
-  <p-tabPanel [headerStyleClass]="'add-tab'">
+  <!-- <p-tabPanel [headerStyleClass]="'add-tab'">
     <ng-template pTemplate="header">
       <span (click)="addNewTab()">
         <i class="fas fa-plus"></i>
       </span>
     </ng-template>
     &nbsp;
-  </p-tabPanel>
+  </p-tabPanel> -->
 </p-tabView>
+<button
+  class="add-tab"
+  (click)="addNewTab()"
+  pButton
+  [icon]="'fas fa-plus fa-2x'"
+></button>
 
 <p-dialog
   [header]="selecteionAsset.title | trim: 70"
@@ -91,7 +90,7 @@
 >
   <div
     class="large-preview-image"
-    [ngStyle]="{ 'background-image': url(selecteionAsset.largeImageUrl) }"
+    [ngStyle]="{ 'background-image': selecteionAsset.largeImageUrl | url }"
   >
     &nbsp;
   </div>

@@ -20,6 +20,16 @@ body {
 
 // preview card
 
+.image-con {
+  width: 100%;
+  height: 180px;
+}
+
+.image-prev {
+  width: 100%;
+  background-size: cover;
+  height: 180px;
+}
 .preview {
   cursor: pointer;
   // opacity: 0.85;
@@ -65,4 +75,45 @@ p.discription {
   border: 1px solid #ccc;
   margin: 1rem 0 !important;
   padding: 1rem;
+}
+
+li {
+  &,
+  &:focus,
+  *:focus {
+    outline: none;
+  }
+  &.add-tab {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: $bg-color !important;
+    border: 1px solid transparent !important;
+    & a {
+      background: $bg-color !important;
+      padding: 0 !important;
+      margin: 0;
+      span {
+        display: block;
+        background: $bg-color;
+
+        text-align: center;
+        height: 36px;
+        width: 36px;
+        line-height: 36px;
+        outline: none;
+      }
+    }
+  }
+}
+
+.ui-tabview-panels {
+  min-height: 90vh;
+}
+
+.add-tab.ui-button {
+  position: fixed;
+  right: 2rem;
+  border-radius: 2rem;
+  bottom: 2rem;
+  padding: 1rem 2rem;
 }

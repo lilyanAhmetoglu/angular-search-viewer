@@ -7,6 +7,7 @@ import { GoogleImageSearchService } from "./shared/services/google-image-search.
 import { ResultMapper } from "./shared/result-maper";
 import { Asset } from "./models/asset";
 import { SearchTypes } from "./shared/data/search-types";
+import { TabsDaTaService } from "./shared/services/tabs-data.service";
 
 @Component({
   selector: "app-root",
@@ -15,7 +16,7 @@ import { SearchTypes } from "./shared/data/search-types";
 })
 export class AppComponent {
   title = "search-viewer";
-  public tabs: Tabs = []; // 🔥 our project state a single source and base of object base of array [] 👌
+  public tabs: Tabs;
   public selectedIndex = 0;
 
   public selecteionAsset: Asset = Asset.getAsset();
@@ -26,7 +27,8 @@ export class AppComponent {
 
   constructor(
     private _yService: YoutubeService,
-    private _gService: GoogleImageSearchService
+    private _gService: GoogleImageSearchService,
+    private _tabsDataService: TabsDaTaService
   ) {}
 
   /**
@@ -35,6 +37,8 @@ export class AppComponent {
    * @memberof AppComponent
    */
   public ngOnInit() {
+    this.tabs = this._tabsDataService.getCurrentTabs();
+
     this.addNewTab(); // 🎉 create a first tab when the project start
   }
 
@@ -45,11 +49,11 @@ export class AppComponent {
     // tab.assests = response.map(ResultMapper.videosToAsset);
     // console.log(tab.assests);
 
-    this.tabs.push(tab);
+    this._tabsDataService.AddTab(tab);
+    this.selectedIndex = this.tabs.length - 1;
 
-    setTimeout(() => {
-      this.selectedIndex = this.tabs.length - 1;
-    }, 0);
+    // setTimeout(() => {
+    // }, 0);
   }
 
   public getAssests(tab: Tab) {
@@ -64,12 +68,12 @@ export class AppComponent {
     }
   }
 
-  public url(path: string) {
-    return `url(${path})`;
-  }
-
   public showDialog(data: Asset): void {
     this.selecteionAsset = data;
     this.dialogVis = true;
+  }
+
+  public removeTab(index): void {
+    this._tabsDataService.removeTab;
   }
 }
